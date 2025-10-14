@@ -4,10 +4,10 @@ import com.izaac_cardoso.qrcode.generator.domain.factory.ResponseType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+import java.util.HashMap;
+
 public class PortoBelem extends ResponseType {
-    @Id
-    private String id = "PB";
+    private String type = "PB";
     private double pH;
     private boolean ecoli;
     private String sampleDate;
@@ -18,20 +18,25 @@ public class PortoBelem extends ResponseType {
         this.sampleDate = date;
     }
 
-//check the best type to handle date type, for now it is set as String
-    public String getId() {
-        return id;
+    public PortoBelem(HashMap<String, String> fieldMap) {
+        this.pH = Double.parseDouble(fieldMap.get("pH"));
+        this.ecoli = Boolean.parseBoolean(fieldMap.get("ecoli"));
+        this.sampleDate = fieldMap.get("sampleDate");
     }
 
-    public double getpH() {
-        return pH;
+    //check the best type to handle date type, for now it is set as String
+    public String getType() {
+        return type;
     }
 
-    public boolean isEcoli() {
-        return ecoli;
+    public HashMap<String, String> getFields() {
+        HashMap<String, String> fieldMap = new HashMap<String, String>();
+
+        fieldMap.put("pH", String.valueOf(this.pH));
+        fieldMap.put("ecoli", String.valueOf(this.ecoli));
+        fieldMap.put("sampleDate", String.valueOf(this.sampleDate));
+
+        return fieldMap;
     }
 
-    public String getSampleDate() {
-        return sampleDate;
-    }
 }

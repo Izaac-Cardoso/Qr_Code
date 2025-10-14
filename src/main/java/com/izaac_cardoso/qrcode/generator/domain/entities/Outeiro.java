@@ -4,11 +4,11 @@ import com.izaac_cardoso.qrcode.generator.domain.factory.ResponseType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+import java.util.HashMap;
+
 public class Outeiro extends ResponseType {
 
-    @Id
-    private String id = "OUT";
+    private String type = "OUT";
     private double color;
     private double chlorine;
     private double tds;
@@ -21,23 +21,26 @@ public class Outeiro extends ResponseType {
         this.sampleDate = sampleDate;
     }
 
-    public String getId() {
-        return id;
+    public Outeiro(HashMap<String, String> fieldMap) {
+        this.color = Double.parseDouble(fieldMap.get("color"));
+        this.chlorine = Double.parseDouble(fieldMap.get("chlorine"));
+        this.tds = Double.parseDouble(fieldMap.get("tds"));
+        this.sampleDate = fieldMap.get("sampleDate");
     }
 
-    public double getColor() {
-        return color;
+    public String getType() {
+        return type;
     }
 
-    public double getChlorine() {
-        return chlorine;
+    public HashMap<String, String> getFields() {
+        HashMap<String, String> fieldMap = new HashMap<String, String>();
+
+        fieldMap.put("color", String.valueOf(this.color));
+        fieldMap.put("chlorine", String.valueOf(this.chlorine));
+        fieldMap.put("tds", String.valueOf(this.tds));
+        fieldMap.put("sampleDate", String.valueOf(this.sampleDate));
+
+        return fieldMap;
     }
 
-    public double getTds() {
-        return tds;
-    }
-
-    public String getSampleDate() {
-        return sampleDate;
-    }
 }

@@ -1,14 +1,12 @@
 package com.izaac_cardoso.qrcode.generator.domain.entities;
 
 import com.izaac_cardoso.qrcode.generator.domain.factory.ResponseType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
-@Entity
+import java.util.HashMap;
+
 public class Miramar extends ResponseType {
 
-    @Id
-    private String id = "TPQM";
+    private String type = "TPQM";
     private double turbidity;
     private double phosphorus;
     private double nitrite;
@@ -21,23 +19,25 @@ public class Miramar extends ResponseType {
         this.sampleDate = date;
     }
 
-    public String getId() {
-        return id;
+    public Miramar(HashMap<String, String> fieldMap) {
+        this.turbidity = Double.parseDouble(fieldMap.get("turbidity"));
+        this.phosphorus = Double.parseDouble(fieldMap.get("phosphorus"));
+        this.nitrite = Double.parseDouble(fieldMap.get("nitrite"));
+        this.sampleDate = fieldMap.get("sampleDate");
     }
 
-    public double getTurbidity() {
-        return turbidity;
+    public String getType() {
+        return type;
     }
 
-    public double getPhosphorus() {
-        return phosphorus;
-    }
+    public HashMap<String, String> getFields() {
+        HashMap<String, String> fieldMap = new HashMap<String, String>();
 
-    public double getNitrite() {
-        return nitrite;
-    }
+        fieldMap.put("turbidity", String.valueOf(this.turbidity));
+        fieldMap.put("phosphorus", String.valueOf(this.phosphorus));
+        fieldMap.put("nitrite", String.valueOf(this.nitrite));
+        fieldMap.put("sampleDate", String.valueOf(this.sampleDate));
 
-    public String getSampleDate() {
-        return sampleDate;
+        return fieldMap;
     }
 }

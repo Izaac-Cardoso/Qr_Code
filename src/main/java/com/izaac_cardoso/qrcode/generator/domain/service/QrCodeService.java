@@ -5,7 +5,13 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.izaac_cardoso.qrcode.generator.domain.entities.CollectedSample;
+import com.izaac_cardoso.qrcode.generator.domain.entities.Miramar;
+import com.izaac_cardoso.qrcode.generator.domain.entities.Outeiro;
+import com.izaac_cardoso.qrcode.generator.domain.entities.PortoBelem;
 import com.izaac_cardoso.qrcode.generator.dtos.DTORequest;
+import com.izaac_cardoso.qrcode.generator.repository.CollectedSampleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
@@ -16,6 +22,10 @@ import java.util.Map;
 
 @Service
 public class QrCodeService {
+
+    @Autowired
+    private CollectedSampleRepository collectedSampleRepository;
+
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -63,5 +73,57 @@ public class QrCodeService {
         BitMatrix bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 200, 200);
 
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
+    }
+
+    public CollectedSample createSample(String type) throws Exception {
+
+        CollectedSample sample;
+
+        switch (type) {
+            case "TPQM":
+                Miramar miramar = new Miramar(0.0, 0.0, 0.0, "2025-01-01");
+                sample = new CollectedSample(miramar);
+                break;
+            case "OUT":
+                Outeiro outeiro = new Outeiro(0.0, 0.0, 0.0, "2025-01-01");
+                sample = new CollectedSample(outeiro);
+                break;
+            case "PB":
+                PortoBelem portoBelem = new PortoBelem(0.0, true, "2025-01-01");
+                sample = new CollectedSample(portoBelem);
+                break;
+            default:
+                throw new Exception("Tu é leso é? As opções são TPQM, OUT, PB");
+        }
+
+        return collectedSampleRepository.save(sample);
+    }
+
+    public CollectedSample readSample(String type) throws Exception {
+
+        if (collectedSampleRepository.findById(type).isPresent()) {
+            CollectedSample sample = collectedSampleRepository.findById(type).get();
+
+            // Acho feio esse formato de switch, mas tô com preguiça de voltar :-P
+            sample = switch (type) {
+                case "TPQM" -> {
+                    Miramar miramar = new Miramar(sample.getFields());
+                    yield new CollectedSample(miramar);
+                }
+                case "OUT" -> {
+                    Outeiro outeiro = new Outeiro(sample.getFields());
+                    yield new CollectedSample(outeiro);
+                }
+                case "PB" -> {
+                    PortoBelem portoBelem = new PortoBelem(sample.getFields());
+                    yield new CollectedSample(portoBelem);
+                }
+                default -> throw new Exception("Tu é leso é? As opções são TPQM, OUT, PB");
+            };
+
+            return sample;
+        }
+
+        throw new Exception("Esse elemento não existe!");
     }
 }

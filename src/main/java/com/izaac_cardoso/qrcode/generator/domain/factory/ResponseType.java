@@ -1,6 +1,18 @@
 package com.izaac_cardoso.qrcode.generator.domain.factory;
 
-public abstract class ResponseType {
+import java.util.HashMap;
 
-    private String id;
+public class ResponseType {
+
+    private String type;
+
+    private HashMap<String, String> fieldMap;
+
+    public String getType() {
+        return type;
+    }
+
+    public HashMap<String, String> getFields() {
+        return fieldMap;
+    }
 }
