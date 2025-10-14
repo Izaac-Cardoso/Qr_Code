@@ -2,10 +2,12 @@ package com.izaac_cardoso.qrcode.generator.domain.entities;
 
 import com.izaac_cardoso.qrcode.generator.domain.factory.ResponseType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class Miramar extends ResponseType {
 
+    @Id
     private String id = "TPQM";
     private double turbidity;
     private double phosphorus;
