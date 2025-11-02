@@ -1,10 +1,12 @@
 package com.izaac_cardoso.qrcode.generator.controller;
 
 import com.google.zxing.WriterException;
+import com.izaac_cardoso.qrcode.generator.domain.entities.Sample;
+import com.izaac_cardoso.qrcode.generator.domain.service.SampleService;
 import com.izaac_cardoso.qrcode.generator.dtos.DTORequest;
 import com.izaac_cardoso.qrcode.generator.domain.service.QrCodeService;
 
-import com.izaac_cardoso.qrcode.generator.dtos.DTOResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -19,22 +21,25 @@ import java.awt.image.BufferedImage;
 @RequestMapping("api/qrcode")
 public class QrCodeController {
 
-    private final QrCodeService service;
+    private final QrCodeService qrCodeService;
+    private final SampleService sampleService;
 
-    public QrCodeController(QrCodeService service) {
-        this.service = service;
+    public QrCodeController(QrCodeService qrCodeService, SampleService sampleService) {
+        this.qrCodeService = qrCodeService;
+        this.sampleService = sampleService;
     }
 
     @PostMapping(produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<BufferedImage> generateBarCode(@RequestBody DTORequest request) throws WriterException {
-        var qrCodeImage = service.generateQRCode(request);
+        var qrCodeImage = qrCodeService.generateQRCode(request);
 
         return ResponseEntity.ok(qrCodeImage);
     }
 
     @PostMapping("/forms/submit")
-    public ResponseEntity<?> submitData(DTOResponse response) {
+    public ResponseEntity<?> submitData(@RequestBody Sample response) {
+        sampleService.persist(response);
 
-        return null;
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
