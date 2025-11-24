@@ -3,7 +3,6 @@ package com.izaac_cardoso.qrcode.generator.controller;
 import com.google.zxing.WriterException;
 import com.izaac_cardoso.qrcode.generator.domain.entities.Sample;
 import com.izaac_cardoso.qrcode.generator.domain.service.SampleService;
-import com.izaac_cardoso.qrcode.generator.dtos.DTORequest;
 import com.izaac_cardoso.qrcode.generator.domain.service.QrCodeService;
 
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.awt.image.BufferedImage;
 
 @RestController
-@RequestMapping("api/qrcode")
+@RequestMapping("/api/qrCode")
 public class QrCodeController {
 
     private final QrCodeService qrCodeService;
@@ -30,7 +29,7 @@ public class QrCodeController {
     }
 
     @PostMapping(produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<BufferedImage> generateBarCode(@RequestBody DTORequest request) throws WriterException {
+    public ResponseEntity<BufferedImage> generateBarCode(@RequestBody Sample request) throws WriterException {
         var qrCodeImage = qrCodeService.generateQRCode(request);
 
         return ResponseEntity.ok(qrCodeImage);

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 public class Sample implements Serializable {
@@ -33,12 +34,20 @@ public class Sample implements Serializable {
         this.fields = fields;
     }
 
-    public String id() {
+    public String getId() {
         return this.id;
     }
 
-    public String date() {
+    public String getDate() {
         return this.date;
+    }
+
+    public void setDate(@NotNull String date) {
+        this.date = date;
+    }
+
+    public String getFields() {
+        return fields;
     }
 
     //Serialize the entity as json
