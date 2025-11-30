@@ -21,11 +21,9 @@ import java.awt.image.BufferedImage;
 public class QrCodeController {
 
     private final QrCodeService qrCodeService;
-    private final SampleService sampleService;
 
-    public QrCodeController(QrCodeService qrCodeService, SampleService sampleService) {
+    public QrCodeController(QrCodeService qrCodeService) {
         this.qrCodeService = qrCodeService;
-        this.sampleService = sampleService;
     }
 
     @PostMapping(produces = MediaType.IMAGE_PNG_VALUE)
@@ -35,10 +33,4 @@ public class QrCodeController {
         return ResponseEntity.ok(qrCodeImage);
     }
 
-    @PostMapping("/forms/submit")
-    public ResponseEntity<?> submitData(@RequestBody Sample response) {
-        sampleService.persist(response);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 }
