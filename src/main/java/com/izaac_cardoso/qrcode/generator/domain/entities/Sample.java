@@ -21,6 +21,7 @@ public class Sample implements Serializable {
     private String id;
 
     @NotNull
+    @Column(name = "collect_date")
     private String date;
 
     @Column(columnDefinition = "json")
