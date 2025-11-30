@@ -26,8 +26,7 @@ public class SampleController {
     }
 
     @GetMapping
-    public ResponseEntity<Sample> getData(@RequestParam String sampleId, @RequestParam LocalDateTime date) {
-        return null;
+    public ResponseEntity<?> getData(@RequestParam String sampleId, @RequestParam LocalDateTime date) {
+        return service.findSample(sampleId, date);
     }
-
 }
