@@ -2,9 +2,7 @@ package com.izaac_cardoso.qrcode.generator.domain.entities;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -20,8 +18,10 @@ public class Sample implements Serializable {
     @NotNull
     private String id;
 
+//Look up for the right data type to deal with date and how to format it correctly ('dd/MM/yyyy' -> 'yyyy-MM-dd')
     @NotNull
     @Column(name = "collect_date")
+    @Temporal(TemporalType.DATE)
     private String date;
 
     @Column(columnDefinition = "json")

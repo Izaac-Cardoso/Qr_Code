@@ -4,10 +4,15 @@ import com.izaac_cardoso.qrcode.generator.domain.entities.Sample;
 import com.izaac_cardoso.qrcode.generator.domain.exceptions.NotFoundException;
 import com.izaac_cardoso.qrcode.generator.repository.CollectedSampleRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class SampleService {
@@ -31,4 +36,14 @@ public class SampleService {
 
         return ResponseEntity.ok(sample);
     }
+
+    public ResponseEntity<List<Sample>> getSampleById(String id, int pageNumber) {
+        Sort sort = Sort.by("date").ascending();
+        Pageable pageable = PageRequest.of(pageNumber, 5, sort);
+
+        var samples = repository.findAllById(id, pageable).getContent();
+
+        return ResponseEntity.ok(samples);
+    }
+
 }

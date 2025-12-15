@@ -1,5 +1,6 @@
 package com.izaac_cardoso.qrcode.generator;
 
+import com.izaac_cardoso.qrcode.generator.domain.entities.Sample;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

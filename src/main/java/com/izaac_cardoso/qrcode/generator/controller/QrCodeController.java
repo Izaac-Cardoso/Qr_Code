@@ -2,10 +2,8 @@ package com.izaac_cardoso.qrcode.generator.controller;
 
 import com.google.zxing.WriterException;
 import com.izaac_cardoso.qrcode.generator.domain.entities.Sample;
-import com.izaac_cardoso.qrcode.generator.domain.service.SampleService;
 import com.izaac_cardoso.qrcode.generator.domain.service.QrCodeService;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
