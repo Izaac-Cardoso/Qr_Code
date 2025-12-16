@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -49,7 +50,7 @@ public class QrCodeService {
         LocalDateTime formattedDate;
         try {
             formattedDate = LocalDateTime.parse(request.getDate(), formatter);
-            request.setDate(String.valueOf(formattedDate));
+            request.setDate(LocalDate.parse(String.valueOf(formattedDate)));
 
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Date must be 'dd/MM/yyyy' format");

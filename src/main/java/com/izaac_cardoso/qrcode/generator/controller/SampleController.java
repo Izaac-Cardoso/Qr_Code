@@ -2,11 +2,11 @@ package com.izaac_cardoso.qrcode.generator.controller;
 
 import com.izaac_cardoso.qrcode.generator.domain.entities.Sample;
 import com.izaac_cardoso.qrcode.generator.domain.service.SampleService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class SampleController {
     }
 
     @GetMapping("/{id}/{date}")
-    public ResponseEntity<?> getData(@PathVariable String id, @PathVariable LocalDateTime date) {
+    public ResponseEntity<?> getData(@PathVariable String id, @PathVariable LocalDate date) {
         return service.findSample(id, date);
     }
 
@@ -36,5 +36,10 @@ public class SampleController {
     public ResponseEntity<List<Sample>> paginatedSamples(@PathVariable String id,
                                                          @RequestParam(required = false, defaultValue = "0") int pageNumber) {
         return service.getSampleById(id, pageNumber);
+    }
+
+    @GetMapping("/{init}/{end}")
+    public ResponseEntity<List<Sample>> getSampleInInterval(@PathVariable LocalDate init, @PathVariable LocalDate end) {
+        return service.findAllByCustomDate(init, end);
     }
 }

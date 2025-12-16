@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,14 +23,14 @@ public class Sample implements Serializable {
     @NotNull
     @Column(name = "collect_date")
     @Temporal(TemporalType.DATE)
-    private String date;
+    private LocalDate date;
 
     @Column(columnDefinition = "json")
     private String fields;
 
     public Sample() {}
 
-    public Sample(String id, String date, String fields) {
+    public Sample(String id, LocalDate date, String fields) {
         this.id = id;
         this.date = date;
         this.fields = fields;
@@ -40,10 +41,12 @@ public class Sample implements Serializable {
     }
 
     public String getDate() {
-        return this.date;
+        var stringfyDate = this.date;
+
+        return stringfyDate.toString();
     }
 
-    public void setDate(@NotNull String date) {
+    public void setDate(@NotNull LocalDate date) {
         this.date = date;
     }
 
