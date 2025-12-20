@@ -35,11 +35,9 @@ public class QrCodeService {
 //      urlBuilder.addParameter("fields=", encodedFields);
 //	    URL url = urlBuilder.build().toURL();
 
-        String url = "https://domain.com:8080/form-page?id=" + encodedId +
-                "&date=" + encodedDate +
-                "&fields=" + encodedFields;
-
-        return url;
+        return "https://localhost:8080/form_page?id=" + encodedId +
+               "&date=" + encodedDate +
+               "&fields=" + encodedFields;
     }
 
     public BufferedImage generateQRCode(Sample request) throws WriterException {
