@@ -35,7 +35,7 @@ public class QrCodeService {
 //      urlBuilder.addParameter("fields=", encodedFields);
 //	    URL url = urlBuilder.build().toURL();
 
-        return "https://localhost:8080/form_page?id=" + encodedId +
+        return "http://localhost:8080/form_page?id=" + encodedId +
                "&date=" + encodedDate +
                "&fields=" + encodedFields;
     }
